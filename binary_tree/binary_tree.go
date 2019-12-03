@@ -1,4 +1,4 @@
-package main
+package binary_tree
 
 import (
 	"fmt"
@@ -84,20 +84,20 @@ func MaxNode(t *TreeNode) *TreeNode {
 	}
 	return t
 }
+
+// this func is buggy
 func Insert(t *TreeNode, data int32) *TreeNode {
 	newNode := NewTreeNode(data)
 	if t != nil {
 		if t.Data > data {
 			if t.Left != nil {
-				t = t.Left
-				Insert(t, data)
+				Insert(t.Left, data)
 			} else {
 				t.Left = newNode
 			}
 		} else if t.Data < data {
 			if t.Right != nil {
-				t = t.Right
-				Insert(t, data)
+				Insert(t.Right, data)
 			} else {
 				t.Right = newNode
 			}
@@ -108,25 +108,78 @@ func Insert(t *TreeNode, data int32) *TreeNode {
 	return t
 }
 
-func main() {
-	RootNodeIndex = 0
-	// preOrderArray := []int32{1, 2, 4, 3, 5, 6}
-	// inOrderArray := []int32{4, 2, 1, 5, 3, 6}
-	// root := ReConstruct(preOrderArray, inOrderArray, 0, int32(len(inOrderArray)-1))
-	// InOrderWalk(root, TreePrint)
-	bstreeInOrder := []int32{1, 2, 3, 4, 5, 6}
-	bstreePreOrder := []int32{3, 2, 1, 5, 4, 6}
-	bstree := ReConstruct(bstreePreOrder, bstreeInOrder, 0, int32(len(bstreeInOrder)-1))
-	InOrderWalk(bstree, TreePrint)
-	minNode := MinNode(bstree)
-	fmt.Println(minNode.Data)
-
-	// insert data to a tree
-	t := Insert(nil, 2)
-	t = Insert(t, 3)
-	t = Insert(t, 1)
-	t = Insert(t, 5)
-	t = Insert(t, 4)
-	t = Insert(t, 6)
-	fmt.Println(MaxNode(t).Data)
+func SliceToBSTree(sliceData []int32) *TreeNode {
+	/*
+		// 先声明t的类型, 是一个指针
+		t := new(TreeNode)
+		// 再赋值空指针
+		t = nil
+	*/
+	// 或者
+	var t *TreeNode
+	for i := 0; i < len(sliceData); i++ {
+		t = Insert(t, sliceData[i])
+	}
+	return t
 }
+
+func BSTreeToSlice(t *TreeNode, s []int32) []int32 {
+	if t != nil {
+		s = BSTreeToSlice(t.Left, s)
+		s = append(s, t.Data)
+		s = BSTreeToSlice(t.Right, s)
+	}
+	return s
+}
+
+func LookUp(t *TreeNode, data int32) *TreeNode {
+	for {
+		if t != nil && t.Data != data {
+			if data < t.Data {
+				t = t.Left
+			} else {
+				t = t.Right
+			}
+		} else {
+			break
+		}
+	}
+	return t
+}
+
+func Succ(t *TreeNode) *TreeNode {
+	if t.Right != nil {
+		return MinNode(t.Right)
+	} else {
+		p := t.Parent
+		for {
+			if p != nil && p.Left != t { //直到找到出现左子树
+				t = p
+				p = p.Parent
+			} else {
+				break
+			}
+		}
+		return p
+	}
+}
+
+func Pred(t *TreeNode) *TreeNode {
+	if t.Left != nil {
+		return MaxNode(t.Left)
+	} else {
+		p := t.Parent
+		for {
+			if p != nil && p.Right != t { //直到找到出现右子树
+				t = p
+				p = p.Parent
+			} else {
+				break
+			}
+		}
+		return p
+	}
+}
+
+// 如果二叉树是左斜的, 搜索根节点和递归累计, 时间复杂度为O(n^2)
+// 改进: 搜索根节点可以改成用map存储时间复杂度提升到O(1), 总时间复杂度提升到O(n)
