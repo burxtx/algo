@@ -1,4 +1,4 @@
-package insert_sort
+package sorting
 
 func InsertSort(xs []int32) []int32 {
 	for i := 1; i < len(xs); i++ {
@@ -15,4 +15,12 @@ func InsertSort(xs []int32) []int32 {
 		}
 	}
 	return xs
+}
+
+func InsertSort()  {
+	
+}
+
+func Insert()  {
+	
 }
