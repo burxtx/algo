@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestRecruiseInsert(t *testing.T) {
+func TestRecurseInsert(t *testing.T) {
 	RootNodeIndex = 0
 	preOrderArray := []int32{1, 2, 4, 3, 5, 6}
 	inOrderArray := []int32{4, 2, 1, 5, 3, 6}

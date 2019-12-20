@@ -17,6 +17,10 @@ func InsertSort(xs []int32) []int32 {
 	return xs
 }
 
-//   Using linked-list to gain constant time, O(1), insert operation.
-//   Instead of using pointer based linked-list, we can use
-//   index based linked-list
+func InsertSort() {
+
+}
+
+func Insert() {
+
+}
