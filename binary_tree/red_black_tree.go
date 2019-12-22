@@ -50,10 +50,20 @@ func LeftRotate(t, x *RBNode) {
 
 }
 
+func SetColor(nodes []*RBNode, colors []int32) {
+	if len(nodes) != len(colors) {
+		return
+	}
+	for i := 0; i < len(nodes); i++ {
+		nodes[i].Color = colors[i]
+	}
+}
+
 func RBInsert(t *RBNode, data int32) *RBNode {
 	root := t
 	x := &RBNode{Data: data, Color: RED}
 	var parent *RBNode
+	// 找到插入位置，插入位置总是叶子节点
 	for {
 		if t != nil {
 			parent = t
