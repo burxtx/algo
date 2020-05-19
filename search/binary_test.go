@@ -1,6 +1,7 @@
 package search
 
 import (
+	"math"
 	"testing"
 )
 
@@ -9,7 +10,7 @@ func TestBinarySearch(t *testing.T) {
 		input  float64
 		wanted float64
 	}{
-		{2, 1.414},
+		{2, math.Sqrt(2)},
 	}
 	for _, test := range tests {
 		actual, err := BinarySearch(test.input)
@@ -17,7 +18,7 @@ func TestBinarySearch(t *testing.T) {
 			t.Errorf(err.Error())
 		}
 		if actual != test.wanted {
-			t.Errorf("%v != %s", actual, test.wanted)
+			t.Errorf("%v != %f", actual, test.wanted)
 		}
 	}
 }
